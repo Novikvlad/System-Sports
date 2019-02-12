@@ -1,0 +1,65 @@
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+	padding-bottom: 10px;
+}
+
+table {
+	border: black;
+	margin-bottom: 10px;
+}
+
+
+header, nav, section {
+	background-color: #852024;
+}
+
+gination li.active {
+	background-color: #852024;
+}
+
+element.style {
+	color: #852024;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.page-footer {
+	background-color: #852024;
+}
+
+.input-field label.multiselect-label, .input-field label.switch-label {
+	position: absolute;
+	top: -26px;
+	font-size: .8rem;
+}
+
+.switch label input[type=checkbox]:checked ~.lever {
+	background-color: #852024;
+}
+
+.switch label input[type=checkbox]:checked ~.lever:before, .switch label input[type=checkbox]:checked
+    ~.lever:after {
+	left: 18px;
+}
+
+.switch label input[type=checkbox]:checked ~.lever:after {
+	background-color: #26a69a;
+}
+
+.switch label input[type=checkbox]:checked ~.lever:before, .switch label input[type=checkbox]:checked
+    ~.lever:after {
+	left: 18px;
+}
+
+gination li.active {
+	background-color: #852024;
+}
+.pagination li a {
+	color: #852024;
+}

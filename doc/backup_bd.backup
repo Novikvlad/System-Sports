@@ -1,0 +1,1205 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.24
+-- Dumped by pg_dump version 9.3.24
+-- Started on 2019-01-11 19:17:24
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 1 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2110 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 176 (class 1259 OID 67446)
+-- Name: city; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.city (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    country_id integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.city OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 67444)
+-- Name: city_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.city_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.city_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2111 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: city_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.city_id_seq OWNED BY public.city.id;
+
+
+--
+-- TOC entry 172 (class 1259 OID 67424)
+-- Name: club; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.club (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    based timestamp without time zone,
+    stadium_id integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.club OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 67551)
+-- Name: club_2_owner; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.club_2_owner (
+    user_account_id integer NOT NULL,
+    club_id integer NOT NULL
+);
+
+
+ALTER TABLE public.club_2_owner OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 67422)
+-- Name: club_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.club_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.club_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2112 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: club_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.club_id_seq OWNED BY public.club.id;
+
+
+--
+-- TOC entry 174 (class 1259 OID 67435)
+-- Name: country; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.country (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    region_id integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.country OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 67433)
+-- Name: country_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.country_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.country_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2113 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: country_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.country_id_seq OWNED BY public.country.id;
+
+
+--
+-- TOC entry 194 (class 1259 OID 67542)
+-- Name: event; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.event (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    date timestamp without time zone NOT NULL,
+    stadium_id integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.event OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 67562)
+-- Name: event_2_season_ticket; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.event_2_season_ticket (
+    event_id integer NOT NULL,
+    season_ticket_id integer NOT NULL
+);
+
+
+ALTER TABLE public.event_2_season_ticket OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 67540)
+-- Name: event_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.event_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2114 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.event_id_seq OWNED BY public.event.id;
+
+
+--
+-- TOC entry 186 (class 1259 OID 67498)
+-- Name: fun_organisation; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.fun_organisation (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    club_id integer NOT NULL,
+    city_id integer NOT NULL,
+    deposit numeric(12,2) NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.fun_organisation OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 67496)
+-- Name: fun_organisation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.fun_organisation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fun_organisation_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2115 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: fun_organisation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.fun_organisation_id_seq OWNED BY public.fun_organisation.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 67509)
+-- Name: partner; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.partner (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.partner OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 67490)
+-- Name: partner_contract; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.partner_contract (
+    id integer NOT NULL,
+    club_id integer NOT NULL,
+    partner_id integer NOT NULL,
+    date_signing timestamp without time zone NOT NULL,
+    contract_term timestamp without time zone NOT NULL,
+    contract_value numeric(12,2) NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.partner_contract OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 67488)
+-- Name: partner_contract_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.partner_contract_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.partner_contract_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2116 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: partner_contract_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.partner_contract_id_seq OWNED BY public.partner_contract.id;
+
+
+--
+-- TOC entry 187 (class 1259 OID 67507)
+-- Name: partner_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.partner_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.partner_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2117 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: partner_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.partner_id_seq OWNED BY public.partner.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 67554)
+-- Name: player_detail; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.player_detail (
+    id integer NOT NULL,
+    type character varying NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.player_detail OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 67520)
+-- Name: region; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.region (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.region OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 67518)
+-- Name: region_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.region_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.region_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2118 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: region_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.region_id_seq OWNED BY public.region.id;
+
+
+--
+-- TOC entry 192 (class 1259 OID 67531)
+-- Name: season_ticket; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.season_ticket (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    sector character varying NOT NULL,
+    "row" character varying NOT NULL,
+    seat character varying NOT NULL,
+    price numeric(12,2) NOT NULL,
+    date timestamp without time zone NOT NULL,
+    presence boolean NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.season_ticket OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 67529)
+-- Name: season_ticket_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.season_ticket_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.season_ticket_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2119 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: season_ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.season_ticket_id_seq OWNED BY public.season_ticket.id;
+
+
+--
+-- TOC entry 178 (class 1259 OID 67457)
+-- Name: stadium; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.stadium (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    capacity integer NOT NULL,
+    address character varying NOT NULL,
+    based timestamp without time zone,
+    city_id integer NOT NULL,
+    created timestamp without time zone,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.stadium OWNER TO postgres;
+
+--
+-- TOC entry 177 (class 1259 OID 67455)
+-- Name: stadium_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.stadium_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stadium_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2120 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: stadium_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.stadium_id_seq OWNED BY public.stadium.id;
+
+
+--
+-- TOC entry 182 (class 1259 OID 67479)
+-- Name: ticket; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.ticket (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    sector character varying NOT NULL,
+    "row" character varying NOT NULL,
+    seat character varying NOT NULL,
+    price numeric(12,2) NOT NULL,
+    presence boolean NOT NULL,
+    event_id integer NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ticket OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 67477)
+-- Name: ticket_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ticket_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ticket_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2121 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ticket_id_seq OWNED BY public.ticket.id;
+
+
+--
+-- TOC entry 180 (class 1259 OID 67468)
+-- Name: user_account; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.user_account (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    email character varying NOT NULL,
+    password character varying NOT NULL,
+    country_id integer NOT NULL,
+    fun_organisation_id integer NOT NULL,
+    phone character varying NOT NULL,
+    birthday timestamp without time zone NOT NULL,
+    type character varying NOT NULL,
+    created timestamp without time zone NOT NULL,
+    updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_account OWNER TO postgres;
+
+--
+-- TOC entry 179 (class 1259 OID 67466)
+-- Name: user_account_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_account_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_account_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2122 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: user_account_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_account_id_seq OWNED BY public.user_account.id;
+
+
+--
+-- TOC entry 1915 (class 2604 OID 67449)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city ALTER COLUMN id SET DEFAULT nextval('public.city_id_seq'::regclass);
+
+
+--
+-- TOC entry 1913 (class 2604 OID 67427)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club ALTER COLUMN id SET DEFAULT nextval('public.club_id_seq'::regclass);
+
+
+--
+-- TOC entry 1914 (class 2604 OID 67438)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.country ALTER COLUMN id SET DEFAULT nextval('public.country_id_seq'::regclass);
+
+
+--
+-- TOC entry 1924 (class 2604 OID 67545)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event ALTER COLUMN id SET DEFAULT nextval('public.event_id_seq'::regclass);
+
+
+--
+-- TOC entry 1920 (class 2604 OID 67501)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fun_organisation ALTER COLUMN id SET DEFAULT nextval('public.fun_organisation_id_seq'::regclass);
+
+
+--
+-- TOC entry 1921 (class 2604 OID 67512)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.partner ALTER COLUMN id SET DEFAULT nextval('public.partner_id_seq'::regclass);
+
+
+--
+-- TOC entry 1919 (class 2604 OID 67493)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.partner_contract ALTER COLUMN id SET DEFAULT nextval('public.partner_contract_id_seq'::regclass);
+
+
+--
+-- TOC entry 1922 (class 2604 OID 67523)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.region ALTER COLUMN id SET DEFAULT nextval('public.region_id_seq'::regclass);
+
+
+--
+-- TOC entry 1923 (class 2604 OID 67534)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.season_ticket ALTER COLUMN id SET DEFAULT nextval('public.season_ticket_id_seq'::regclass);
+
+
+--
+-- TOC entry 1916 (class 2604 OID 67460)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stadium ALTER COLUMN id SET DEFAULT nextval('public.stadium_id_seq'::regclass);
+
+
+--
+-- TOC entry 1918 (class 2604 OID 67482)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ticket ALTER COLUMN id SET DEFAULT nextval('public.ticket_id_seq'::regclass);
+
+
+--
+-- TOC entry 1917 (class 2604 OID 67471)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_account ALTER COLUMN id SET DEFAULT nextval('public.user_account_id_seq'::regclass);
+
+
+--
+-- TOC entry 2080 (class 0 OID 67446)
+-- Dependencies: 176
+-- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.city (id, name, country_id, created, updated) VALUES (1, 'London', 1, '2019-01-11 16:33:33.156', '2019-01-11 16:33:33.156');
+
+
+--
+-- TOC entry 2123 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.city_id_seq', 1, true);
+
+
+--
+-- TOC entry 2076 (class 0 OID 67424)
+-- Dependencies: 172
+-- Data for Name: club; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.club (id, name, based, stadium_id, created, updated) VALUES (1, 'Arsenal', '1886-12-12 00:00:00', 1, '2019-01-11 16:42:58.906', '2019-01-11 16:42:58.906');
+
+
+--
+-- TOC entry 2099 (class 0 OID 67551)
+-- Dependencies: 195
+-- Data for Name: club_2_owner; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2124 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: club_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.club_id_seq', 2, true);
+
+
+--
+-- TOC entry 2078 (class 0 OID 67435)
+-- Dependencies: 174
+-- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.country (id, name, region_id, created, updated) VALUES (1, 'England', 1, '2019-01-11 16:33:24.831', '2019-01-11 16:33:24.831');
+
+
+--
+-- TOC entry 2125 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: country_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.country_id_seq', 1, true);
+
+
+--
+-- TOC entry 2098 (class 0 OID 67542)
+-- Dependencies: 194
+-- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.event (id, name, date, stadium_id, created, updated) VALUES (4, 'Football', '2019-01-12 00:00:00', 1, '2019-01-11 16:42:10.578', '2019-01-11 16:42:10.578');
+
+
+--
+-- TOC entry 2101 (class 0 OID 67562)
+-- Dependencies: 197
+-- Data for Name: event_2_season_ticket; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2126 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.event_id_seq', 4, true);
+
+
+--
+-- TOC entry 2090 (class 0 OID 67498)
+-- Dependencies: 186
+-- Data for Name: fun_organisation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.fun_organisation (id, name, club_id, city_id, deposit, created, updated) VALUES (1, 'GrodnoGooner', 1, 1, 10.00, '2019-01-11 16:47:07.632', '2019-01-11 16:47:07.632');
+
+
+--
+-- TOC entry 2127 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: fun_organisation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.fun_organisation_id_seq', 1, true);
+
+
+--
+-- TOC entry 2092 (class 0 OID 67509)
+-- Dependencies: 188
+-- Data for Name: partner; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.partner (id, name, created, updated) VALUES (1, 'Adidas', '2019-01-11 16:44:49.281', '2019-01-11 16:44:49.281');
+
+
+--
+-- TOC entry 2088 (class 0 OID 67490)
+-- Dependencies: 184
+-- Data for Name: partner_contract; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.partner_contract (id, club_id, partner_id, date_signing, contract_term, contract_value, created, updated) VALUES (1, 1, 1, '2019-01-12 00:00:00', '2020-01-12 00:00:00', 7000000.00, '2019-01-11 16:45:11.052', '2019-01-11 16:45:11.052');
+
+
+--
+-- TOC entry 2128 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: partner_contract_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.partner_contract_id_seq', 1, true);
+
+
+--
+-- TOC entry 2129 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: partner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.partner_id_seq', 1, true);
+
+
+--
+-- TOC entry 2100 (class 0 OID 67554)
+-- Dependencies: 196
+-- Data for Name: player_detail; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2094 (class 0 OID 67520)
+-- Dependencies: 190
+-- Data for Name: region; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.region (id, name, created, updated) VALUES (1, 'Europe', '2019-01-11 16:33:15.866', '2019-01-11 16:33:15.866');
+
+
+--
+-- TOC entry 2130 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: region_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.region_id_seq', 1, true);
+
+
+--
+-- TOC entry 2096 (class 0 OID 67531)
+-- Dependencies: 192
+-- Data for Name: season_ticket; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.season_ticket (id, name, sector, "row", seat, price, date, presence, created, updated) VALUES (1, 'Red', '1', '12', '16', 150.00, '2019-01-12 00:00:00', false, '2019-01-11 16:37:40.796', '2019-01-11 16:37:40.796');
+
+
+--
+-- TOC entry 2131 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: season_ticket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.season_ticket_id_seq', 1, true);
+
+
+--
+-- TOC entry 2082 (class 0 OID 67457)
+-- Dependencies: 178
+-- Data for Name: stadium; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.stadium (id, name, capacity, address, based, city_id, created, updated) VALUES (1, 'Emirates Stadium', 60280, 'Holloway', '2006-01-19 00:00:00', 1, '2019-01-11 16:34:02.663', '2019-01-11 16:34:02.663');
+
+
+--
+-- TOC entry 2132 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: stadium_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.stadium_id_seq', 1, true);
+
+
+--
+-- TOC entry 2086 (class 0 OID 67479)
+-- Dependencies: 182
+-- Data for Name: ticket; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.ticket (id, name, sector, "row", seat, price, presence, event_id, created, updated) VALUES (1, 'Football', '2', '2', '2', 15.00, false, 4, '2019-01-11 16:53:02.328', '2019-01-11 16:53:02.328');
+
+
+--
+-- TOC entry 2133 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: ticket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ticket_id_seq', 1, true);
+
+
+--
+-- TOC entry 2084 (class 0 OID 67468)
+-- Dependencies: 180
+-- Data for Name: user_account; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2134 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: user_account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_account_id_seq', 1, false);
+
+
+--
+-- TOC entry 1930 (class 2606 OID 67454)
+-- Name: city_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT city_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1926 (class 2606 OID 67432)
+-- Name: club_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.club
+    ADD CONSTRAINT club_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1928 (class 2606 OID 67443)
+-- Name: country_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.country
+    ADD CONSTRAINT country_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1948 (class 2606 OID 67550)
+-- Name: event_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT event_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1940 (class 2606 OID 67506)
+-- Name: fun_organisation_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.fun_organisation
+    ADD CONSTRAINT fun_organisation_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1938 (class 2606 OID 67495)
+-- Name: partner_contract_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.partner_contract
+    ADD CONSTRAINT partner_contract_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1942 (class 2606 OID 67517)
+-- Name: partner_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.partner
+    ADD CONSTRAINT partner_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1950 (class 2606 OID 67561)
+-- Name: player_detail_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.player_detail
+    ADD CONSTRAINT player_detail_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1944 (class 2606 OID 67528)
+-- Name: region_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.region
+    ADD CONSTRAINT region_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1946 (class 2606 OID 67539)
+-- Name: season_ticket_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.season_ticket
+    ADD CONSTRAINT season_ticket_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1932 (class 2606 OID 67465)
+-- Name: stadium_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.stadium
+    ADD CONSTRAINT stadium_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1936 (class 2606 OID 67487)
+-- Name: ticket_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.ticket
+    ADD CONSTRAINT ticket_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1934 (class 2606 OID 67476)
+-- Name: user_account_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.user_account
+    ADD CONSTRAINT user_account_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1953 (class 2606 OID 67575)
+-- Name: city_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT city_fk0 FOREIGN KEY (country_id) REFERENCES public.country(id);
+
+
+--
+-- TOC entry 1963 (class 2606 OID 67625)
+-- Name: club_2_owner_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club_2_owner
+    ADD CONSTRAINT club_2_owner_fk0 FOREIGN KEY (user_account_id) REFERENCES public.user_account(id);
+
+
+--
+-- TOC entry 1964 (class 2606 OID 67630)
+-- Name: club_2_owner_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club_2_owner
+    ADD CONSTRAINT club_2_owner_fk1 FOREIGN KEY (club_id) REFERENCES public.club(id);
+
+
+--
+-- TOC entry 1951 (class 2606 OID 67565)
+-- Name: club_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.club
+    ADD CONSTRAINT club_fk0 FOREIGN KEY (stadium_id) REFERENCES public.stadium(id);
+
+
+--
+-- TOC entry 1952 (class 2606 OID 67570)
+-- Name: country_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.country
+    ADD CONSTRAINT country_fk0 FOREIGN KEY (region_id) REFERENCES public.region(id);
+
+
+--
+-- TOC entry 1966 (class 2606 OID 67640)
+-- Name: event_2_season_ticket_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_2_season_ticket
+    ADD CONSTRAINT event_2_season_ticket_fk0 FOREIGN KEY (event_id) REFERENCES public.event(id);
+
+
+--
+-- TOC entry 1967 (class 2606 OID 67645)
+-- Name: event_2_season_ticket_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_2_season_ticket
+    ADD CONSTRAINT event_2_season_ticket_fk1 FOREIGN KEY (season_ticket_id) REFERENCES public.season_ticket(id);
+
+
+--
+-- TOC entry 1962 (class 2606 OID 67620)
+-- Name: event_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT event_fk0 FOREIGN KEY (stadium_id) REFERENCES public.stadium(id);
+
+
+--
+-- TOC entry 1960 (class 2606 OID 67610)
+-- Name: fun_organisation_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fun_organisation
+    ADD CONSTRAINT fun_organisation_fk0 FOREIGN KEY (club_id) REFERENCES public.club(id);
+
+
+--
+-- TOC entry 1961 (class 2606 OID 67615)
+-- Name: fun_organisation_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fun_organisation
+    ADD CONSTRAINT fun_organisation_fk1 FOREIGN KEY (city_id) REFERENCES public.city(id);
+
+
+--
+-- TOC entry 1958 (class 2606 OID 67600)
+-- Name: partner_contract_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.partner_contract
+    ADD CONSTRAINT partner_contract_fk0 FOREIGN KEY (club_id) REFERENCES public.club(id);
+
+
+--
+-- TOC entry 1959 (class 2606 OID 67605)
+-- Name: partner_contract_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.partner_contract
+    ADD CONSTRAINT partner_contract_fk1 FOREIGN KEY (partner_id) REFERENCES public.partner(id);
+
+
+--
+-- TOC entry 1965 (class 2606 OID 67635)
+-- Name: player_detail_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.player_detail
+    ADD CONSTRAINT player_detail_fk0 FOREIGN KEY (id) REFERENCES public.user_account(id);
+
+
+--
+-- TOC entry 1954 (class 2606 OID 67580)
+-- Name: stadium_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stadium
+    ADD CONSTRAINT stadium_fk0 FOREIGN KEY (city_id) REFERENCES public.city(id);
+
+
+--
+-- TOC entry 1957 (class 2606 OID 67595)
+-- Name: ticket_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ticket
+    ADD CONSTRAINT ticket_fk0 FOREIGN KEY (event_id) REFERENCES public.event(id);
+
+
+--
+-- TOC entry 1955 (class 2606 OID 67585)
+-- Name: user_account_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_account
+    ADD CONSTRAINT user_account_fk0 FOREIGN KEY (country_id) REFERENCES public.country(id);
+
+
+--
+-- TOC entry 1956 (class 2606 OID 67590)
+-- Name: user_account_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_account
+    ADD CONSTRAINT user_account_fk1 FOREIGN KEY (fun_organisation_id) REFERENCES public.fun_organisation(id);
+
+
+--
+-- TOC entry 2109 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2019-01-11 19:17:25
+
+--
+-- PostgreSQL database dump complete
+--
+

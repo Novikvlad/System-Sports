@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE tiles-definitions PUBLIC  
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="DefaultTemplate"
+		template="/WEB-INF/views/main-template.jsp">
+		<put-attribute name="title" value="Sports Pro " />
+		<put-attribute name="header"
+			value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/footer.jsp" />
+	</definition>
+
+	<definition name="home" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/home.jsp" />
+	</definition>
+
+	<definition name="region.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/region/list.jsp" />
+	</definition>
+
+	<definition name="region.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/region/form.jsp" />
+	</definition>
+
+	<definition name="partner.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/partner/form.jsp" />
+	</definition>
+
+	<definition name="partner.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/partner/list.jsp" />
+	</definition>
+
+	<definition name="country.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/country/list.jsp" />
+	</definition>
+
+	<definition name="country.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/country/form.jsp" />
+	</definition>
+
+	<definition name="city.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/city/list.jsp" />
+	</definition>
+
+	<definition name="city.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/city/form.jsp" />
+	</definition>
+
+	<definition name="stadium.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/stadium/list.jsp" />
+	</definition>
+
+	<definition name="stadium.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/stadium/form.jsp" />
+	</definition>
+
+	<definition name="event.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/event/list.jsp" />
+	</definition>
+
+	<definition name="event.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/event/form.jsp" />
+	</definition>
+
+	<definition name="ticket.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/ticket/list.jsp" />
+	</definition>
+
+	<definition name="ticket.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/ticket/form.jsp" />
+	</definition>
+
+	<definition name="seasonTicket.list"
+		extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seasonTicket/list.jsp" />
+	</definition>
+
+	<definition name="seasonTicket.edit"
+		extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seasonTicket/form.jsp" />
+	</definition>
+
+	<definition name="login" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/login.jsp" />
+	</definition>
+</tiles-definitions>
